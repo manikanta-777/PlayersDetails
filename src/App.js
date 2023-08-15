@@ -6,8 +6,14 @@ import { useEffect } from "react";
 export default function App() {
   const PlayerDetails = PlayerData();
   const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const addToSelectedList = (player) => {
+    setSelectedPlayers([...selectedPlayers, player]);
+  };
+  const removePlayer = (player) => {
+    setSelectedPlayers(selectedPlayers.filter((user) => user !== player));
+  };
   useEffect(() => {
-    setSelectedPlayers(PlayerDetails);
+    // setSelectedPlayers(PlayerDetails);
   }, []);
   console.log("data", PlayerDetails);
   return (
@@ -21,13 +27,18 @@ export default function App() {
           <th>bowling</th>
           <th>response</th>
         </tr>
-        {PlayerDetails.map((player, index) => (
+        {PlayerDetails?.map((player, index) => (
           <tr>
             <td>{player.name}</td>
             <td>{player.type}</td>
             <td>{player.batting}</td>
             <td>{player.bowling}</td>
-            <button className="selectButton">select</button>
+            <button
+              className="selectButton"
+              onClick={() => addToSelectedList(player)}
+            >
+              select
+            </button>
           </tr>
         ))}
       </table>
@@ -41,13 +52,18 @@ export default function App() {
           <th>bowling</th>
           <th>response</th>
         </tr>
-        {selectedPlayers.map((player, index) => (
+        {selectedPlayers?.map((player, index) => (
           <tr>
             <td>{player.name}</td>
             <td>{player.type}</td>
             <td>{player.batting}</td>
             <td>{player.bowling}</td>
-            <button className="removeButton">Remove</button>
+            <button
+              className="removeButton"
+              onClick={() => removePlayer(player)}
+            >
+              Remove
+            </button>
           </tr>
         ))}
       </table>

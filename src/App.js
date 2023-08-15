@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import "./styles.css";
 import PlayerData from "./PlayersDetail";
 import { useEffect } from "react";
+import PlayersDetail from "./PlayersDetail";
 
 export default function App() {
+  const [val, setVal] = useState("name");
   const PlayerDetails = PlayerData();
+  const [data, setData] = useState(PlayerDetails);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const addToSelectedList = (player) => {
     setSelectedPlayers([...selectedPlayers, player]);
@@ -12,22 +15,32 @@ export default function App() {
   const removePlayer = (player) => {
     setSelectedPlayers(selectedPlayers.filter((user) => user !== player));
   };
+  const sorting = (val) => {
+    console.log(val);
+    setData(
+      data.slice().sort((a, b) => {
+        return b[val] - a[val];
+      })
+    );
+  };
+
   useEffect(() => {
+    // sorting(val);
     // setSelectedPlayers(PlayerDetails);
-  }, []);
-  console.log("data", PlayerDetails);
+  }, [PlayerDetails, val]);
+  // console.log("data", PlayerDetails);
   return (
     <div className="App">
       <table>
         <h3>Players Details</h3>
         <tr>
-          <th>Name</th>
+          <th onClick={() => sorting("name")}>Name</th>
           <th>style</th>
           <th>batting</th>
           <th>bowling</th>
           <th>response</th>
         </tr>
-        {PlayerDetails?.map((player, index) => (
+        {data?.map((player, index) => (
           <tr>
             <td>{player.name}</td>
             <td>{player.type}</td>
